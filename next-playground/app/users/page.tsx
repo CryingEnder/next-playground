@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import Link from "next/link";
 import { sort } from "fast-sort";
 
@@ -23,28 +23,33 @@ const UsersPage = async ({
   return (
     <>
       <h1 className="text-black">Users</h1>
-      <div>
-        <table className="table table-bordered">
-          <thead>
-            <tr>
-              <th>
-                <Link href="/users?sortOrder=name">Name</Link>
-              </th>
-              <th>
-                <Link href="/users?sortOrder=email">Email</Link>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {sortedUsers.map((user) => (
-              <tr className="text-black" key={user.id}>
-                <td>{user.name}</td>
-                <td>{user.email}</td>
+      <Link href="/users/new" className="btn">
+        New User
+      </Link>
+      <Suspense fallback={<p>Loading...</p>}>
+        <div>
+          <table className="table table-bordered">
+            <thead>
+              <tr>
+                <th>
+                  <Link href="/users?sortOrder=name">Name</Link>
+                </th>
+                <th>
+                  <Link href="/users?sortOrder=email">Email</Link>
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {sortedUsers.map((user) => (
+                <tr className="text-black" key={user.id}>
+                  <td>{user.name}</td>
+                  <td>{user.email}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Suspense>
     </>
   );
 };

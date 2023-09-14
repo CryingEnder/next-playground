@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import React from "react";
 
 type User = {
@@ -6,9 +7,11 @@ type User = {
   email: string;
 };
 
-const UsersPage = async () => {
+const UsersPage = async ({ params: { id } }: { params: { id: number } }) => {
   const res = await fetch("https://jsonplaceholder.typicode.com/users");
   const users: User[] = await res.json();
+
+  if (id > 10) notFound();
 
   return (
     <>
